@@ -1,1 +1,5 @@
 *.py[cod]
+images/data
+images/cat
+images/car
+images/dog
