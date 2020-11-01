@@ -10,8 +10,8 @@ for file in *.jpg; do
 done
 cd ..
 
-cd video
-ffmpeg -framerate 1 -i %04d.jpg -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p ../network_visualization.mp4
-cd ..
+#cd video
+#ffmpeg -framerate 1 -i %04d.jpg -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p ../network_visualization.mp4
+#cd ..
 
-rm -rf video
+#rm -rf video

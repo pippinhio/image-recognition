@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from mpl_toolkits import mplot3d
 
-extensions = ["jpg", "pdf"]
+extensions = ["jpg"]
 for folder in extensions:
   if not os.path.exists(folder):
     os.makedirs(folder)
@@ -52,6 +52,42 @@ def set_title(text):
 def draw_helper(x, y, z):
   helper = ax.scatter([z], [x], [y], color='white', alpha=0.0)
   return helper
+
+#------------------------------------------
+# Legend
+#------------------------------------------
+legend = None
+legend_count = 0
+def plot_legend():
+  global legend
+  global legend_count
+  
+  patch1a = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5)                                ')
+  patch1b = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3)                 ')
+  patch1  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3, out_channels= 6)')
+  patch2  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                   ')
+  patch3  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=6, out_channels=16)')
+  patch4  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                   ')
+  patch5  = mpatches.Patch(color='green',  label='Linear(in_features=400, out_features=120)            ')
+  patch6  = mpatches.Patch(color='green',  label='Linear(in_features=120, out_features= 84)            ')
+  patch7  = mpatches.Patch(color='green',  label='Linear(in_features= 84, out_features=  2)            ')
+  handles = [patch1, patch2, patch3, patch4, patch5, patch6, patch7]
+  
+  if legend is not None:
+    legend.remove()
+  
+  if legend_count == 0:
+    my_handles = [patch1a]
+  elif legend_count == 1:
+    my_handles = [patch1b]
+  else:
+    my_handles = handles[:legend_count-1]
+  
+  legend = plt.legend(handles=my_handles, loc='upper right', prop={
+      'size': 10,
+      'family': 'monospace'
+    })
+  legend_count += 1
 
 #------------------------------------------
 # Initialize
@@ -144,6 +180,10 @@ points = []
 
 bundle1 = draw_line_bundle(x1[:5], y1[:5], z1[0], x2[0], y2[0], z2[0])
 set_alpha(red_plane[:5,:5], 0.5)
+point = draw_point(x2[0], y2[0], z2[0], color='orange')
+points.append(point)
+save_fig()
+plot_legend()
 save_fig()
 
 set_alpha(bundle1, 0.3)
@@ -166,8 +206,8 @@ save_fig()
 set_alpha(bundle3, 0.3)
 set_linestyle(bundle3, 'dotted')
 set_alpha(blue_plane[:5,:5], 0.2)
-point = draw_point(x2[0], y2[0], z2[0], color='orange')
-points.append(point)
+save_fig()
+plot_legend()
 save_fig()
 
 set_alpha(  red_plane[:5,:5], 0.1)
@@ -309,6 +349,8 @@ for k in range(1, 6):
   save_fig()
   set_alpha(planes2[k], 0.1)
 save_fig()
+plot_legend()
+save_fig()
 title.remove()
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -321,6 +363,8 @@ z3 = np.linspace(4.5, 5.0, 6)
 draw_helper(x3[-1], y3[-1], z3[-1])
 save_fig()
 title = set_title('2D Max Pooling')
+plot_legend()
+save_fig()
 
 points = []
 for i in range(3):
@@ -358,6 +402,8 @@ z4 = np.linspace(8.5, 10.0, 16)
 draw_helper(x4[-1], y4[-1], z4[-1])
 save_fig()
 title = set_title('2D Convolution')
+plot_legend()
+save_fig()
 
 points = []
 for i in range(3):
@@ -401,6 +447,8 @@ z5 = np.linspace(18.5, 20.0, 16)
 draw_helper(x5[-1], y5[-1], z5[-1])
 save_fig()
 title = set_title('2D Max Pooling')
+plot_legend()
+save_fig()
 
 planes5 = []
 for k in range(16):
@@ -425,6 +473,8 @@ helper = draw_helper(x6, y6[-1], z6)
 save_fig()
 helper.remove()
 title = set_title('Linear Transformation')
+plot_legend()
+save_fig()
 
 plane6 = draw_plane([x6], y6, z6, 'green')
 bundles = []
@@ -452,6 +502,8 @@ z7 = 80
 
 helper = draw_helper(x7, y7[-1], z7)
 save_fig()
+plot_legend()
+save_fig()
 helper.remove()
 
 plane7 = draw_plane([x7], y7, z7, 'green')
@@ -478,6 +530,8 @@ z8 = 160
 
 helper = draw_helper(x8, y8[-1], z8)
 save_fig()
+plot_legend()
+save_fig()
 helper.remove()
 
 plane8 = draw_plane([x8], y8, z8, 'green')
@@ -496,10 +550,4 @@ set_alpha(plane8, 1.0)
 save_fig()
 
 title.remove()
-save_fig()
-
-convolution_patch = mpatches.Patch(color='orange', label='2D Convolution')
-maxpool_patch = mpatches.Patch(color='red', label='2D Max Pooling')
-linear_patch = mpatches.Patch(color='green', label='Linear Transformation')
-plt.legend(handles=[convolution_patch, maxpool_patch, linear_patch], prop={'size': 20})
 save_fig()
