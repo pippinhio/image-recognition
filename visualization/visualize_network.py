@@ -45,7 +45,7 @@ def get_linspace(n):
   return np.linspace(-(n-1)/2*dx, (n-1)/2*dx, n)
 
 def set_title(text):
-  title = plt.figtext(.5, .9, text, fontsize=50, ha='center')
+  title = plt.figtext(.5, .9, text, fontsize=25, ha='center')
   return title
 
 # Hack to adjust camera position (elevation and azimuth angle)
@@ -62,16 +62,15 @@ def plot_legend():
   global legend
   global legend_count
   
-  patch1a = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5)                                ')
-  patch1b = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3)                 ')
-  patch1  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3, out_channels= 6)')
-  patch2  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                   ')
-  patch3  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=6, out_channels=16)')
-  patch4  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                   ')
-  patch5  = mpatches.Patch(color='green',  label='Linear(in_features=400, out_features=120)            ')
-  patch6  = mpatches.Patch(color='green',  label='Linear(in_features=120, out_features= 84)            ')
-  patch7  = mpatches.Patch(color='green',  label='Linear(in_features= 84, out_features=  2)            ')
-  handles = [patch1, patch2, patch3, patch4, patch5, patch6, patch7]
+  patch1a = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5)                               ')
+  patch1b = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3)                ')
+  patch1  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3, out_channels=3)')
+  patch2  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                  ')
+  patch3  = mpatches.Patch(color='orange', label='Conv2d(kernel_size=5, in_channels=3, out_channels=3)')
+  patch4  = mpatches.Patch(color='red',    label='MaxPool2d(kernel_size=2, stride=2)                  ')
+  patch5  = mpatches.Patch(color='green',  label='Linear(in_features=75, out_features=10)             ')
+  patch6  = mpatches.Patch(color='green',  label='Linear(in_features=10, out_features= 2)             ')
+  handles = [patch1, patch2, patch3, patch4, patch5, patch6]
   
   if legend is not None:
     legend.remove()
@@ -159,7 +158,7 @@ title = set_title('2D Convolution')
 
 x2 = get_linspace(28)
 y2 = get_linspace(28)
-z2 = np.linspace(1, 1.5, 6)
+z2 = np.linspace(1, 1.5, 3)
 
 def draw_line_bundle(x_start_vec, y_start_vec, z_start, x_end, y_end, z_end):
   L = []
@@ -343,7 +342,7 @@ for i in range(3):
 
 delete(points)
 
-for k in range(1, 6):
+for k in range(1, len(z2)):
   plane = draw_plane(x2, y2, z2[k], 'orange')
   planes2.append(plane)
   save_fig()
@@ -358,7 +357,7 @@ title.remove()
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 x3 = get_linspace(14)
 y3 = get_linspace(14)
-z3 = np.linspace(4.5, 5.0, 6)
+z3 = np.linspace(4.5, 5.0, 3)
 
 draw_helper(x3[-1], y3[-1], z3[-1])
 save_fig()
@@ -381,7 +380,7 @@ for i in range(3):
 delete(points)
 
 planes3 = []
-for k in range(6):
+for k in range(len(z3)):
   set_alpha(planes2[k], 1.0)
   plane = draw_plane(x3, y3, z3[k], 'red')
   planes3.append(plane)
@@ -397,7 +396,7 @@ title.remove()
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 x4 = get_linspace(10)
 y4 = get_linspace(10)
-z4 = np.linspace(8.5, 10.0, 16)
+z4 = np.linspace(9.5, 10.0, 3)
 
 draw_helper(x4[-1], y4[-1], z4[-1])
 save_fig()
@@ -408,7 +407,7 @@ save_fig()
 points = []
 for i in range(3):
   bundles = []
-  for k in range(6):
+  for k in range(len(z3)):
     bundle = draw_line_bundle(x3[i:i+5], y3[:5], z3[k], x4[i], y4[0], z4[0])
     bundles.append(bundle)
     set_alpha(bundle, 0.3)
@@ -421,13 +420,13 @@ for i in range(3):
   save_fig()
   for bundle in bundles:
     delete(bundle)
-  for k in range(6):
+  for k in range(len(z3)):
     set_alpha(planes3[k][i:i+5,:5], 0.1)
 
 delete(points)
 
 planes4 = []
-for k in range(16):
+for k in range(len(z4)):
   plane = draw_plane(x4, y4, z4[k], 'orange')
   planes4.append(plane)
   if k < 3:
@@ -442,7 +441,7 @@ title.remove()
 
 x5 = get_linspace(5)
 y5 = get_linspace(5)
-z5 = np.linspace(18.5, 20.0, 16)
+z5 = np.linspace(19.5, 20.0, 3)
 
 draw_helper(x5[-1], y5[-1], z5[-1])
 save_fig()
@@ -451,7 +450,7 @@ plot_legend()
 save_fig()
 
 planes5 = []
-for k in range(16):
+for k in range(len(z5)):
   set_alpha(planes4[k], 1.0)
   plane = draw_plane(x5, y5, z5[k], 'red')
   planes5.append(plane)
@@ -466,7 +465,7 @@ title.remove()
 # 6th
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 x6 = 0
-y6 = np.linspace(-0.5, 0.5, 120)
+y6 = np.linspace(-0.5, 0.5, 10)
 z6 = 40
 
 helper = draw_helper(x6, y6[-1], z6)
@@ -497,7 +496,7 @@ save_fig()
 # 7th
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 x7 = 0
-y7 = np.linspace(-0.5*84/120, 0.5*84/120, 84)
+y7 = [-0.2, 0.2]
 z7 = 80
 
 helper = draw_helper(x7, y7[-1], z7)
@@ -519,34 +518,6 @@ for bundle in bundles:
   delete(bundle)
 
 set_alpha(plane7, 0.1)
-save_fig()
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# 8th
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-x8 = 0
-y8 = [-0.2, 0.2]
-z8 = 160
-
-helper = draw_helper(x8, y8[-1], z8)
-save_fig()
-plot_legend()
-save_fig()
-helper.remove()
-
-plane8 = draw_plane([x8], y8, z8, 'green')
-bundles = []
-for y in y8:
-  bundle = draw_line_bundle([x7], y7, z7, x8, y, z8)
-  bundles.append(bundle)
-  set_alpha(bundle, 0.3)
-  set_linestyle(bundle, 'dotted')
-save_fig()
-
-for bundle in bundles:
-  delete(bundle)
-
-set_alpha(plane8, 1.0)
 save_fig()
 
 title.remove()
