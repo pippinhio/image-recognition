@@ -34,7 +34,7 @@ def block_save_color(A):
   ax.set_aspect('equal')
   plt.axis('off')
   plt.draw()
-  plt.savefig('inner/%04d.jpg' % count)
+  plt.savefig('inner/%04d.jpg' % count, bbox_inches='tight')
   count += 1
 
 def block_save(A):
@@ -49,7 +49,7 @@ def block_save(A):
   ax.set_aspect('equal')
   plt.axis('off')
   plt.draw()
-  plt.savefig('inner/%04d.jpg' % count)
+  plt.savefig('inner/%04d.jpg' % count, bbox_inches='tight')
   count += 1
 
 torch.manual_seed(0)
