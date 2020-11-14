@@ -17,3 +17,4 @@ def validate(net, validation_set):
   
   accuracy = 1 - n_errors / n_validation
   print("The accuracy is %.2f%%" % (100*accuracy))
+  return accuracy

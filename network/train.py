@@ -2,12 +2,12 @@ from timeit import default_timer as timer
 
 import torch
 
-def train(net, training_set):
+def train(net, training_set, lr=0.001, momentum=0.9):
   print("Training started with %d images ..." % len(training_set))
   start = timer()
   
   criterion = torch.nn.CrossEntropyLoss()
-  optimizer = torch.optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+  optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=momentum)
   
   for _ in range(2):
     for inputs, labels in training_set:
